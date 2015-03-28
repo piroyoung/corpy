@@ -1,0 +1,5 @@
+.idea/
+.log/
+__pychache__/
+data/*
+resource/setting_staging.json

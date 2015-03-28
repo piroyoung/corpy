@@ -1,0 +1,8 @@
+{
+  "twitter_api":{
+    "api_key":"input",
+    "api_secret":"your",
+    "token":"own",
+    "token_secret":"keys"
+  }
+}
