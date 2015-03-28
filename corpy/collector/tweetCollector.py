@@ -25,7 +25,7 @@ class StreamCollector():
                 if tweet['lang'] != 'ja' or 'http' in tweet['text']:
                     continue
 
-            except():
+            except:
                 continue
 
             for line in self.getBow(tweet):
