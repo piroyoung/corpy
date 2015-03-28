@@ -25,7 +25,7 @@ class StreamCollector():
                 if tweet['lang'] != 'ja' or 'http' in tweet['text']:
                     continue
 
-            except:
+            except():
                 continue
 
             for line in self.getBow(tweet):
@@ -57,7 +57,7 @@ class StreamCollector():
             str(tweet['geo']),
             str(tweet['place']),
         ]
-        return '\t'.join(info(tweet))
+        return '\t'.join(info(tweet)) + '\n'
 
     def getRaw(self, num=3):
         tw_raw = open('../../data/tweet_raw.dat', 'w', encoding='utf8')
