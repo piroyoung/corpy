@@ -52,7 +52,7 @@ class TextParser():
         out = lambda: np.array([w for w in self.parse(text)])
         return out()
 
-    def parseToDelim(self, text):
+    def parseToString(self, text):
         out = lambda: self.sep.join([w for w in self.parse(text)])
         return out()
 
@@ -65,13 +65,13 @@ class TextParser():
 
 class ParsedConverter():
     @staticmethod
-    def delimToBow(delim, sep=' '):
-        arr = np.array(delim.split(sep))
+    def stringToBow(string, sep=' '):
+        arr = np.array(string.split(sep))
         bow = [(w, sum(arr == w)) for w in np.unique(arr)]
         return bow
 
     @staticmethod
-    def bowToDelim(bow, sep=' '):
+    def bowToString(bow, sep=' '):
         getRepeat = lambda x: ((x[0] + sep) * x[1]).rstrip()
-        delim = sep.join([getRepeat(b) for b in bow])
-        return delim
+        string = sep.join([getRepeat(b) for b in bow])
+        return string

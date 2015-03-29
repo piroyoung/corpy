@@ -14,9 +14,7 @@ class StreamCollector():
                 keys['api_key'],
                 keys['api_secret']))
 
-    def getStream(self, num = 30):
-        tw_bow = open('../../data/tweet_bow.dat', 'w', encoding='utf8')
-        tw_info = open('../../data/tweet_info.dat', 'w', encoding='utf8')
+    def getStream(self, num):
         i = 0
         iter = self.twitter.statuses.sample()
         for tweet in iter:
@@ -28,37 +26,31 @@ class StreamCollector():
             except:
                 continue
 
-            for line in self.getBow(tweet):
-                tw_bow.write(line)
-
-            tw_info.write(self.getInfo(tweet))
-            i += 1
+            yield tweet
             if i == num:
                 break
 
-        tw_bow.close()
-        tw_info.close()
 
     def getBow(self, tweet):
-        bow = lambda: self.parser.parseToBow(tweet['text'])
-        for b in bow():
-            yield '\t'.join([tweet['id_str'], b[0], str(b[1])]) + '\n'
+        bow = lambda tw: self.parser.parseToBow(tw['text'])
+        return bow(tweet)
 
     def getInfo(self, tweet):
-        info = lambda tweet: [
-            tweet['id_str'],
-            tweet['user']['id_str'],
-            tweet['user']['screen_name'],
-            str(tweet['user']['friends_count']),
+        info = lambda tw: [
+            tw['id_str'],
+            tw['user']['id_str'],
+            tw['user']['screen_name'],
+            str(tw['user']['friends_count']),
             # ':'.join(tweet['entities']['hashtags']),
-            tweet['created_at'],
-            str(tweet['retweet_count']),
-            str(tweet['favorite_count']),
-            str(tweet['geo']),
-            str(tweet['place']),
+            tw['created_at'],
+            str(tw['retweet_count']),
+            str(tw['favorite_count']),
+            str(tw['geo']),
+            str(tw['place']),
         ]
-        return '\t'.join(info(tweet)) + '\n'
+        return info(tweet)
 
+    # json形式確認のためのテスト用メソッド
     def getRaw(self, num=3):
         tw_raw = open('../../data/tweet_raw.dat', 'w', encoding='utf8')
         i = 0
